@@ -1,0 +1,18 @@
+  #btn:hover{
+    background-color: #555555;
+    color: white;
+    cursor: pointer;
+  }
+
+  p{
+      font-size: 30px;
+      font-weight: bold;
+      text-align: left;
+      margin-left: 15px;
+  }
+
+  body{
+      /* background-attachment: fixed; */
+
+  }
+
