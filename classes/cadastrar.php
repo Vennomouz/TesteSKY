@@ -1,5 +1,5 @@
 <?php
-    require_once 'classes/conexao.php';
+    require_once 'conexao.php';
     $conn = new Conexao();
     $conn = $conn->get_conn();
 

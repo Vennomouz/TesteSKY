@@ -96,7 +96,7 @@
 
       jQuery.ajax({
         type: "POST",
-        url: "test.php",
+        url: "classes/cadastrar.php",
         data: dados,
         success: function(data)
         {
