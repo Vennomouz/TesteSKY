@@ -13,7 +13,7 @@ class Conexao
     {
         try 
         {
-            define('MYSQL_DSN', 'mysql:host=localhost;dbname=estagio');
+            define('MYSQL_DSN', 'mysql:host=localhost;dbname=teste');
             define('MYSQL_USER', 'root');
             define('MYSQL_PASSWORD', '');
             

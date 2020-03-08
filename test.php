@@ -4,10 +4,14 @@
     $conn = $conn->get_conn();
 
     $nome = $_POST['nome'];
-    $idade = $_POST['idade'];
+    $categoria = $_POST['categoria'];
+    $data = date("Y-m-d");
+    $valor = $_POST['valor'];
 
-    $sql = $conn->prepare("INSERT INTO teste(nome, idade) VALUES(:nome, :idade)");
+    $sql = $conn->prepare("INSERT INTO despesas(nome, categoria, data, valor) VALUES(:nome, :categoria, :data, :valor)");
     $sql->bindParam(':nome', $nome);
-    $sql->bindParam(':idade', $idade);
+    $sql->bindParam(':categoria', $categoria);
+    $sql->bindParam(':data', $data);
+    $sql->bindParam(':valor', $valor);
 
     $sql->execute();
