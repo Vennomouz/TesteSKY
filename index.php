@@ -30,14 +30,14 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Despesas de hoje (R$)</h5>
-          <h2 class="card-text">R$ 0,00</h2>
+          <h2 class="card-text" id="card1"></h2>
         </div>
       </div>
 
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Despesas do mês (R$)</h5>
-          <h2 class="card-text">R$ 0,00</h2>
+          <h2 class="card-text" id="card2">R$ 0,00</h2>
         </div>
       </div>
 
@@ -72,7 +72,7 @@
           </select>
         </div>
 
-        <div class="form-group col-md-1 col-2 justify-content-end">
+        <div class="form-group col-md-1 col-2">
             <h4>R$</h4>
         </div>
 
@@ -108,14 +108,8 @@
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>KKKKK</td>
-          <td>Casa</td>
-          <td>21-02-2020</td>
-          <td>R$ 20,00</td>
-          <td><button class="btn btn-default fas fa-trash-alt"></button></td>
-        </tr>
+      <tbody id="linha">
+        
       </tbody>
     </table>
   </div>
@@ -127,16 +121,74 @@
 
   jQuery(document).ready(function(){
 
-    jQuery.ajax({
+    var card1 = 0;
+    var card2 = 0;
+
+    jQuery.ajax({ // FUNÇÃO CARREGADA COM A PAGINA PARA LISTAR OS DADOS DO BANCO
         type: "GET",
         url: "classes/listar.php",
         datatype: "json",
         success: function(data)
         {
-          console.log(data);
-          var obj = {a:1, b:2, c:3};
-          for(var i=0 in obj) {
-            console.log(obj[i]);
+          //console.log(data);
+          for(const despesa in data) { // CRIA VARIAVEL DESPESA QUE RECEBE OS INDICES DO ARRAY JSON
+            
+            let day = new Date (data[despesa].data);
+            let today = new Date();
+
+            if(day.getDay() == today.getDay()){
+              card1 += Number.parseFloat(data[despesa].valor);
+            }
+            document.querySelector("#card1").innerHTML = new Number (card1).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+
+            if(day.getMonth() == today.getMonth()){
+              card2 += Number.parseFloat(data[despesa].valor);
+            }
+            document.querySelector("#card2").innerHTML = new Number (card2).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+
+            let linha = document.querySelector('#linha'); //SETA VARIAVEL LINHA RECEBENDO O OBJETO COM ID "LINHA"
+            //MANIPULAÇÃO DE DOM NO HTML
+            //innerHTML ADICIONA TUDO O QUE EU QUISER DENTRO DO OBJETO HTML
+            //NESTE LOOP CONCATENEI DENTRO DA VARIAVEL LINHA OS VALORES DOS OBJETOS PEGOS NESTE LOOP
+            linha.innerHTML += `<tr>                                  
+                                  <td>${data[despesa].nome}</td>
+                                  <td>${data[despesa].categoria}</td>
+                                  <td>${new Date (data[despesa].data).toLocaleDateString()}</td>
+                                  <td>${new Number (data[despesa].valor).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) }</td>
+                                  <td><button class="btn btn-default fas fa-trash-alt" name="excluir"></button></td>
+                                  <input class="idDespesa" type="hidden" value="${data[despesa].id}"></input>
+                                </tr>`
+
+            let botoesExcluir = document.querySelectorAll('[name="excluir"]'); // PEGO TODOS OBJETOS HTML COM ID "EXCLUIR"
+            for (let excluir of botoesExcluir){ //SETA VARIAVEL EXCLUIR PARA CADA OBJETO HTML COM ID "EXCLUIR"
+              console.log(excluir);
+              excluir.addEventListener('click', function(){ // ADICIONA EVENTO CLICK NOS OBJETOS COM ID "EXCLUIR"
+                //alert("voce clicou");
+                var input = excluir.closest('tr'); // SETA VARIAVEL "INPUT" REFERENCIANDO TODOS OS OBJETOS DE "TR" 
+                var data = input.children // SETA VARIAVEL DATA ACESSANDO OS OBJETOS DA CLASSE PAI "TR"
+                console.log(data.item(5).value); //EXIBE O VALOR DO OBJETO DA POSIÇÃO 6 DA CLASSE PAI "TR"
+                deletar(data.item(5).value); // CHAMA A FUNÇÃO DELETAR PASSANDO O VALOR DO OBJETO DA POSIÇÃO 6 DA CLASSE PAI "TR"
+              })
+            }
+
+            function deletar(id){
+              jQuery.ajax({
+                type: "DELETE",
+                url: `classes/deletar.php?id=${id}`,
+                
+                success: function(data)
+                {
+                  console.log(data);
+                  window.alert(data.message);
+                  window.location.reload();
+                },
+                error: function(err){
+                  let mensagem = JSON.parse(err.responseText);
+                  alert(mensagem.message);
+                }
+              });
+            }
+
           }
         },
         error: function(err){
@@ -159,7 +211,6 @@
           window.location.reload();
         },
         error: function(err){
-          // console.log(JSON.parse(err.responseText));
           let mensagem = JSON.parse(err.responseText);
           alert(mensagem.message);
         }
@@ -180,7 +231,7 @@
       form.setAttribute("style", "display: none;");
     }
     console.log(form.style);
-  })
+  });
 
   // function mudarEstado(elmt) {
   //       var display = document.querySelector(elmt).style.display;
@@ -190,5 +241,5 @@
   //       else if(display == "block")
   //           document.querySelector(elmt).style.display = 'none';
   //   }
-
+    
 </script>
