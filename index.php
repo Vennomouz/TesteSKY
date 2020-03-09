@@ -130,7 +130,6 @@
         datatype: "json",
         success: function(data)
         {
-          //console.log(data);
           for(const despesa in data) { // CRIA VARIAVEL DESPESA QUE RECEBE OS INDICES DO ARRAY JSON
             
             let day = new Date (data[despesa].data);
@@ -159,14 +158,11 @@
                                   <input class="idDespesa" type="hidden" value="${data[despesa].id}"></input>
                                 </tr>`
 
-            let botoesExcluir = document.querySelectorAll('[name="excluir"]'); // PEGO TODOS OBJETOS HTML COM ID "EXCLUIR"
+            let botoesExcluir = document.querySelectorAll('[name="excluir"]'); // PEGO TODOS OBJETOS HTML COM NAME "EXCLUIR"
             for (let excluir of botoesExcluir){ //SETA VARIAVEL EXCLUIR PARA CADA OBJETO HTML COM ID "EXCLUIR"
-              console.log(excluir);
-              excluir.addEventListener('click', function(){ // ADICIONA EVENTO CLICK NOS OBJETOS COM ID "EXCLUIR"
-                //alert("voce clicou");
+                excluir.addEventListener('click', function(){ // ADICIONA EVENTO CLICK NOS OBJETOS COM ID "EXCLUIR"
                 var input = excluir.closest('tr'); // SETA VARIAVEL "INPUT" REFERENCIANDO TODOS OS OBJETOS DE "TR" 
                 var data = input.children // SETA VARIAVEL DATA ACESSANDO OS OBJETOS DA CLASSE PAI "TR"
-                console.log(data.item(5).value); //EXIBE O VALOR DO OBJETO DA POSIÇÃO 6 DA CLASSE PAI "TR"
                 deletar(data.item(5).value); // CHAMA A FUNÇÃO DELETAR PASSANDO O VALOR DO OBJETO DA POSIÇÃO 6 DA CLASSE PAI "TR"
               })
             }
@@ -178,7 +174,6 @@
                 
                 success: function(data)
                 {
-                  console.log(data);
                   window.alert(data.message);
                   window.location.reload();
                 },
@@ -206,7 +201,6 @@
         data: dados,
         success: function(data)
         {
-          console.log(data);
           window.alert("Dados cadastrados com sucesso!")
           window.location.reload();
         },
@@ -222,7 +216,7 @@
   const buttomExibe = document.querySelector("#btnExibir");
 
   buttomExibe.addEventListener('click', function(e){
-    e.preventDefault() //Previne a ação padrão do elemento
+    e.preventDefault() 
 
     let form = document.querySelector("#ajax_form");
     if (form.style.display != "block"){
@@ -230,16 +224,6 @@
     }else{
       form.setAttribute("style", "display: none;");
     }
-    console.log(form.style);
   });
-
-  // function mudarEstado(elmt) {
-  //       var display = document.querySelector(elmt).style.display;
-  //       console.log(display);
-  //       if(display == "none")
-  //           document.querySelector(elmt).style.display = 'block';
-  //       else if(display == "block")
-  //           document.querySelector(elmt).style.display = 'none';
-  //   }
     
 </script>

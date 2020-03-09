@@ -5,10 +5,6 @@ class Conexao
     private $pdo; 
     private $msgErro = "";
 
-    // const MYSQL_DSN = 'mysql:host=localhost;dbname=estagio';
-    // const MYSQL_USER = 'root';
-    // const MYSQL_PASSWORD = '';
-
     function __construct()
     {
         try 
