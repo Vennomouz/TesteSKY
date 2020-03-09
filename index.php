@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Teste da SKY</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
@@ -42,16 +44,17 @@
     </div>
   </div>
 
-  <br>
+  <br><br>
 
   <div align="center"> 
       <button type="button" class="btn btn-secondary btn-lg" id="btnExibir">Cadastrar nova despesa</button>
   </div>
 
-  <br>
+  <br><br>
 
   <div class="container">
     <form method="post" action="" id="ajax_form">
+
       <div class="form row"> 
 
         <div class="form-group col-md-4 col-xs-12">
@@ -69,8 +72,12 @@
           </select>
         </div>
 
-        <div class="form-group col-md-4 col-xs-12">
-          <input type="text" class="form-control" name="valor" placeholder="Valor (R$)">
+        <div class="form-group col-md-1 col-2 justify-content-end">
+            <h4>R$</h4>
+        </div>
+
+        <div class="form-group col-md-3 col-10">
+          <input type="text" class="form-control" name="valor" placeholder="Valor">
         </div>
 
       </div>
@@ -81,13 +88,61 @@
 
     </form>
   </div>
+
+  <br>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-auto col-xs-auto"><h1>Lista de Despesas</h1></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col">Categoria</th>
+          <th scope="col">Data</th>
+          <th scope="col">Valor (R$)</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>KKKKK</td>
+          <td>Casa</td>
+          <td>21-02-2020</td>
+          <td>R$ 20,00</td>
+          <td><button class="btn btn-default fas fa-trash-alt"></button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </body>
 </html>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script>
 
   jQuery(document).ready(function(){
+
+    jQuery.ajax({
+        type: "GET",
+        url: "classes/listar.php",
+        datatype: "json",
+        success: function(data)
+        {
+          console.log(data);
+          var obj = {a:1, b:2, c:3};
+          for(var i=0 in obj) {
+            console.log(obj[i]);
+          }
+        },
+        error: function(err){
+          alert("Erro ao cadastrar!");
+        }
+      });
 
     jQuery('#ajax_form').submit(function(e){
       e.preventDefault();
@@ -99,10 +154,16 @@
         data: dados,
         success: function(data)
         {
-          console.log("passei aq");
+          console.log(data);
+          window.alert("Dados cadastrados com sucesso!")
+          window.location.reload();
+        },
+        error: function(err){
+          // console.log(JSON.parse(err.responseText));
+          let mensagem = JSON.parse(err.responseText);
+          alert(mensagem.message);
         }
       });
-      return false;
     });
     
   });
