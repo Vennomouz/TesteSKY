@@ -130,7 +130,7 @@
         datatype: "json",
         success: function(data)
         {
-          for(const despesa in data) { // CRIA VARIAVEL DESPESA QUE RECEBE OS INDICES DO ARRAY JSON
+          for(const despesa in data) { // CRIA VARIAVEL DESPESA QUE RECEBE AS PROPRIEDADES DO OBJETO JSON
             
             let day = new Date (data[despesa].data);
             let today = new Date();
@@ -152,7 +152,7 @@
             linha.innerHTML += `<tr>                                  
                                   <td>${data[despesa].nome}</td>
                                   <td>${data[despesa].categoria}</td>
-                                  <td>${new Date (data[despesa].data).toLocaleDateString()}</td>
+                                  <td>${new Date (data[despesa].data).toLocaleDateString("pt-BR", {timeZone: "UTC"})}</td>
                                   <td>${new Number (data[despesa].valor).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'}) }</td>
                                   <td><button class="btn btn-default fas fa-trash-alt" name="excluir"></button></td>
                                   <input class="idDespesa" type="hidden" value="${data[despesa].id}"></input>
@@ -160,7 +160,7 @@
 
             let botoesExcluir = document.querySelectorAll('[name="excluir"]'); // PEGO TODOS OBJETOS HTML COM NAME "EXCLUIR"
             for (let excluir of botoesExcluir){ //SETA VARIAVEL EXCLUIR PARA CADA OBJETO HTML COM ID "EXCLUIR"
-                excluir.addEventListener('click', function(){ // ADICIONA EVENTO CLICK NOS OBJETOS COM ID "EXCLUIR"
+                excluir.addEventListener('click', function (){ // ADICIONA EVENTO CLICK NOS OBJETOS COM ID "EXCLUIR"
                 var input = excluir.closest('tr'); // SETA VARIAVEL "INPUT" REFERENCIANDO TODOS OS OBJETOS DE "TR" 
                 var data = input.children // SETA VARIAVEL DATA ACESSANDO OS OBJETOS DA CLASSE PAI "TR"
                 deletar(data.item(5).value); // CHAMA A FUNÇÃO DELETAR PASSANDO O VALOR DO OBJETO DA POSIÇÃO 6 DA CLASSE PAI "TR"

@@ -11,6 +11,7 @@
         http_response_code(400);
         header("Content-type: application/json");
         echo (json_encode(['success' => false, 'message' => "Erro ao deletar!" ]));
+        return;
     }
 
     header("Content-type: application/json");

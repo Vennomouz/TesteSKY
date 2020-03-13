@@ -12,7 +12,8 @@
     if($valor == 0){
         http_response_code(422);
         header("Content-type: application/json");
-        echo (json_encode(['success' => false, 'message' => "Digite um valor válido" ]));
+        echo json_encode(['success' => false, 'message' => "Digite um valor válido" ]);
+        return;
     }
     
     $sql = $conn->prepare("INSERT INTO despesas(nome, categoria, valor) VALUES(:nome, :categoria, :valor)");
